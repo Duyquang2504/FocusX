@@ -1,0 +1,136 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+@config "../tailwind.config.js";
+
+@layer base {
+  :root {
+    /* Modern todo app color palette */
+    --background: 240 10% 98%;
+    --background-secondary: 245 15% 96%;
+    --foreground: 215 28% 27%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 28% 27%;
+    --card-shadow: 218 36% 18%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 28% 27%;
+
+    /* ORANGE → YELLOW THEME */
+    --primary: 34 100% 53%;
+    /* #ff930f */
+    --primary-light: 58 100% 68%;
+    /* #fff95b */
+    --primary-dark: 30 100% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 6% 10%;
+
+    --muted: 240 5% 96%;
+    --muted-foreground: 215 18% 47%;
+
+    --accent: 58 100% 92%;
+    --accent-foreground: 34 100% 30%;
+
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 98%;
+
+    --info: 226 100% 63%;
+
+    --border: 214 32% 91%;
+    --input: 210 40% 96%;
+
+    /* Ring + glow ăn theo primary */
+    --ring: 34 100% 53%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg,
+        hsl(34 100% 53%) 0%,
+        hsl(58 100% 68%) 100%);
+
+    --gradient-background: linear-gradient(135deg,
+        hsl(58 100% 96%) 0%,
+        hsl(34 100% 92%) 100%);
+
+    --gradient-card: linear-gradient(135deg,
+        hsl(0 0% 100%) 0%,
+        hsl(58 100% 97%) 100%);
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 hsl(34 100% 53% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(34 100% 53% / 0.1),
+      0 2px 4px -2px hsl(34 100% 53% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(34 100% 53% / 0.1),
+      0 4px 6px -4px hsl(34 100% 53% / 0.1);
+    --shadow-glow: 0 0 20px hsl(34 100% 53% / 0.35);
+
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 34 100% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 58 100% 95.9%;
+    --sidebar-accent-foreground: 34 100% 30%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 34 100% 53%;
+  }
+
+  .dark {
+    --background: 30 30% 6%;
+    --foreground: 60 100% 95%;
+
+    --card: 30 30% 8%;
+    --card-foreground: 60 100% 95%;
+
+    --popover: 30 30% 8%;
+    --popover-foreground: 60 100% 95%;
+
+    --primary: 58 100% 68%;
+    --primary-foreground: 30 100% 10%;
+
+    --secondary: 30 20% 14%;
+    --secondary-foreground: 60 100% 95%;
+
+    --muted: 30 20% 14%;
+    --muted-foreground: 40 40% 70%;
+
+    --accent: 30 20% 14%;
+    --accent-foreground: 60 100% 95%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 30 20% 14%;
+    --input: 30 20% 14%;
+    --ring: 34 100% 53%;
+
+    --sidebar-background: 30 25% 10%;
+    --sidebar-foreground: 60 100% 95%;
+    --sidebar-primary: 58 100% 68%;
+    --sidebar-primary-foreground: 30 100% 10%;
+    --sidebar-accent: 30 20% 14%;
+    --sidebar-accent-foreground: 60 100% 95%;
+    --sidebar-border: 30 20% 14%;
+    --sidebar-ring: 34 100% 53%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
