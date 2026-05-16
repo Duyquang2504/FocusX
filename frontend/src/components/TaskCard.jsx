@@ -1,5 +1,4 @@
-import React from "react";
-import { Card } from "./ui/card";
+import { cn } from "@/lib/utils";
 import {
   Calendar,
   CheckCircle2,
@@ -8,18 +7,69 @@ import {
   Trash2,
 } from "lucide-react";
 import { Button } from "./ui/button";
+import { Card } from "./ui/card";
 import { Input } from "./ui/input";
-import { cn } from "@/lib/utils";
-import TaskList from "./TaskList";
+import { toast } from "sonner";
+import api from "@/lib/axios";
+import { useState } from "react";
 
-const TaskCard = ({ task, index }) => {
-  let isEditting = false;
+const TaskCard = ({ task, index, handleTaskChange }) => {
+  const [isEditting, setIsEditting] = useState(false);
+  const [updateTaskTitle, setUpdateTaskTitle] = useState(task.title || "");
+  const deleteTask = async (taskId) => {
+    try {
+      await api.delete(`/tasks/${taskId}`);
+      toast.success("Nhiệm vụ đã xóa");
+      handleTaskChange();
+    } catch (error) {
+      console.error("Lỗi khi xóa task", error);
+      toast.error("Lỗi khi xóa task");
+    }
+  };
+  const handelKeyPress = (e) => {
+    if (e.key === "Enter") {
+      updateTask();
+    }
+  };
+  const updateTask = async () => {
+    try {
+      setIsEditting(false);
+      await api.put(`/tasks/${task._id}`, { title: updateTaskTitle });
+      toast.success(`Nhiệm vụ đã được đổi thành ${updateTaskTitle}`);
+      handleTaskChange();
+    } catch (error) {
+      console.error("Lỗi khi cập nhật task", error);
+      toast.error("Lỗi khi cập nhật task");
+    }
+  };
+  const toggleTaskCcompleteButton = async () => {
+    try {
+      if (task.status === "active") {
+        await api.put(`/tasks/${task._id}`, {
+          status: "complete",
+          completedAt: new Date().toISOString(),
+        });
+        toast.success("Nhiệm vụ đã hoàn thành");
+      } else {
+        await api.put(`/tasks/${task._id}`, {
+          status: "active",
+          completedAt: null,
+        });
+        toast.success(`${task.title} được đổi sang chưa hoàn thành`);
+      }
+      handleTaskChange();
+    } catch (error) {
+      console.error("Lỗi khi cập nhật trạng thái task", error);
+      toast.error("Lỗi khi cập nhật trạng thái task");
+    }
+  };
   return (
     <Card
       className={cn(
         "p-4 bg-gradient-card border-0 shadow-custom-md hover:shadow-custom-lg transition-all duration-200 animate-fade-in group",
         task.status === "complete" && "opacity-75",
       )}
+      style={{ animationDelay: `${index * 50}ms` }}
     >
       <div className="flex items-center gap-4 ">
         <Button
@@ -31,6 +81,7 @@ const TaskCard = ({ task, index }) => {
               ? "text-success hover:text-success/80"
               : "text-muted-foreground hover:text-primary",
           )}
+          onClick={toggleTaskCcompleteButton}
         >
           {task.status === "complete" ? (
             <CheckCircle2 className="size-5" />
@@ -41,7 +92,16 @@ const TaskCard = ({ task, index }) => {
 
         <div className="flex-1 min-w-0">
           {isEditting ? (
-            <Input className="flex-1 text-base border-border/50 focus:border-primary/50 focus:ring-primary/20" />
+            <Input
+              className="flex-1 text-base border-border/50 focus:border-primary/50 focus:ring-primary/20"
+              value={updateTaskTitle}
+              onChange={(e) => setUpdateTaskTitle(e.target.value)}
+              onKeyPress={handelKeyPress}
+              onBlur={() => {
+                setIsEditting(false);
+                setUpdateTaskTitle(task.title || "");
+              }}
+            />
           ) : (
             <p
               className={cn(
@@ -77,6 +137,10 @@ const TaskCard = ({ task, index }) => {
             variant="ghost"
             size="icon"
             className="flex-shrink-0 transition-colors size-8 text-muted-foreground hover:text-info"
+            onClick={() => {
+              setIsEditting(true);
+              setUpdateTaskTitle(task.title || "");
+            }}
           >
             <SquarePen className="size-4" />
           </Button>
@@ -84,6 +148,7 @@ const TaskCard = ({ task, index }) => {
             variant="ghost"
             size="icon"
             className="flex-shrink-0 transition-colors size-8 text-muted-foreground hover:text-destructive"
+            onClick={() => deleteTask(task._id)}
           >
             <Trash2 className="size-4" />
           </Button>

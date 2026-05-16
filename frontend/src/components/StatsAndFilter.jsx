@@ -24,7 +24,7 @@ const StatsAndFilter = ({
           variant="secondary"
           className="bg-white/50 text-accent-foreground border-info/20 gap-2"
         >
-          {completedTasksCount} {FilterType.completed}
+          {completedTasksCount} {FilterType.complete}
         </Badge>
       </div>
 

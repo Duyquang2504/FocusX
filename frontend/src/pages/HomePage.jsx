@@ -7,7 +7,7 @@ import StatsAndFilter from "@/components/StatsAndFilter";
 
 import TaskList from "@/components/TaskList";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const HomePage = () => {
@@ -35,8 +35,8 @@ const HomePage = () => {
     switch (filter) {
       case "active":
         return task.status === "active";
-      case "completed":
-        return task.status === "completed";
+      case "complete":
+        return task.status === "complete";
       default:
         return true;
     }
@@ -75,7 +75,11 @@ const HomePage = () => {
             activeTasksCount={activeTaskCount}
             completedTasksCount={completeTaskCount}
           />
-          <TaskList filteredTask={filterTaskType} filter={filter} />
+          <TaskList
+            filteredTask={filterTaskType}
+            filter={filter}
+            handleTaskChange={handleTaskChange}
+          />
           <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
             <ListPagination />
             <DateFilter />

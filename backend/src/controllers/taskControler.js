@@ -46,7 +46,7 @@ export const updateTask = async (req, res) => {
         status,
         completedAt,
       },
-      { new: true },
+      { returnDocument: "after" },
     );
     if (!updatedTask) {
       return res.status(500).json({ message: "Nhiệm vụ không tồn tại !" });
