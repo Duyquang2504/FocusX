@@ -14,13 +14,17 @@ const HomePage = () => {
   const [taskBuffer, setTaskBuffer] = useState([]);
   const [activeTaskCount, setActiveTaskCount] = useState(0);
   const [completeTaskCount, setCompleteTaskCount] = useState(0);
+  const [dateQuery, setDateQuery] = useState("today");
+
   const [filter, setFilter] = useState("all");
   useEffect(() => {
     fetchTask();
-  }, []);
+  }, [dateQuery]);
   const fetchTask = async () => {
     try {
-      const res = await axios.get("http://localhost:5001/api/tasks");
+      const res = await axios.get(
+        `http://localhost:5001/api/tasks?filter=${dateQuery}`,
+      );
       console.log("🚀 ~ fetchTask ~ res:", res.data);
 
       setTaskBuffer(res.data.tasks);
@@ -82,7 +86,7 @@ const HomePage = () => {
           />
           <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
             <ListPagination />
-            <DateFilter />
+            <DateFilter dateQuery={dateQuery} setDateQuery={setDateQuery} />
           </div>
           <Footer
             activeTaskCount={activeTaskCount}
