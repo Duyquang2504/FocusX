@@ -11,7 +11,12 @@ import { option } from "@/lib/data";
 
 const DateFilter = ({ dateQuery, setDateQuery }) => {
   return (
-    <Combobox items={option} value={dateQuery} onValueChange={setDateQuery}>
+    <Combobox
+      items={option}
+      value={dateQuery}
+      onValueChange={setDateQuery}
+      className="cursor-pointer"
+    >
       <ComboboxInput
         placeholder="Hôm nay"
         className="bg-accent/80 border-none"
@@ -21,7 +26,7 @@ const DateFilter = ({ dateQuery, setDateQuery }) => {
 
       <ComboboxContent>
         <ComboboxEmpty>No items found.</ComboboxEmpty>
-        <ComboboxList className="bg-accent/80 ">
+        <ComboboxList className="bg-accent/80  ">
           {option.map((item) => (
             <ComboboxItem key={item.value} value={item.value}>
               {item.label}
